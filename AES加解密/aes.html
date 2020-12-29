@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <!-- CryptoJS -->
+        <script src="js/core.js"></script>        
+        <script src="js/enc-base64.js"></script>
+        <script src="js/cipher-core.js"></script>          
+        <script src="js/aes.js"></script>
+<script>
+
+var data1={
+name:'余钊',
+age:18
+}//要加密的数据
+
+var aseKey='1234567890123456789012335475';//秘钥
+var key = CryptoJS.enc.Utf8.parse(aseKey);//将秘钥转换成Utf8字节数组
+
+//加密
+   var encrypt = CryptoJS.AES.encrypt(JSON.stringify(data1), key, {
+		 iv: CryptoJS.enc.Utf8.parse(aseKey.substr(0,16)),
+          mode: CryptoJS.mode.CBC,
+         padding: CryptoJS.pad.Pkcs7
+    });
+    var data2=encrypt.toString();//加密后的数据
+	console.log('加密后的数据:');
+console.log(data2);
+//解密
+
+  var decrypt = CryptoJS.AES.decrypt(data2, key, {
+            iv: CryptoJS.enc.Utf8.parse(aseKey.substr(0,16)),
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+ });
+ var data3=JSON.parse(decrypt.toString(CryptoJS.enc.Utf8));//解密后的数据
+ console.log('解密后的数据:');
+console.log(data3);
+
+</script>
+</head>
+<body>
+测试数据请看控制台
+</body>
+</html>
